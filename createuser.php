@@ -8,7 +8,7 @@ The process may access stored values for user selected icons in the login passnu
 and calculate a login hash value. The process may then determine whether the login hash value matches
 the registration hash value to permit or deny login access to the electronic platform.
 
-    Copyright (C) 2020 Mohammed Nasrallha & Mohammed Alagha
+    Copyright (C) 2020 Mohammed Nasrallah
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
