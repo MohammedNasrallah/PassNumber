@@ -1,3 +1,29 @@
+An authentication process is disclosed which uses categories of icons
+to create an easy to remember passnumber for use with an electronic platform.
+The process may assign each icon a discrete value during registration.
+A hash value is created based on combining the discrete values for each icon in the passnumber. 
+During a login process, the user is presented with the icons, sometimes in a randomly shuffled.
+The user may input the icons that make up his or her passnumber. 
+The process may access stored values for user selected icons in the login passnumber entry field
+and calculate a login hash value. The process may then determine whether the login hash value matches
+the registration hash value to permit or deny login access to the electronic platform.
+
+    Copyright (C) 2020 Mohammed Nasrallha & Mohammed Alagha
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ Contact us at passnumber.com or m.rizeg@gmail.com
+
 <?php session_start();?>
 <?php require_once ("connection.php");?>
 <?php 
