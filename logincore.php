@@ -28,6 +28,8 @@ the registration hash value to permit or deny login access to the electronic pla
 <?php require_once ("connection.php");?>
 <?php 
  
+
+ 
 function mysql_prep( $value ) {
         $magic_quotes_active = get_magic_quotes_gpc();
         $new_enough_php = function_exists( "mysql_real_escape_string" );
@@ -43,7 +45,7 @@ function mysql_prep( $value ) {
     
 function confirm_query($result_set) {
         if (!$result_set) {
-            die("Database query failed: " . mysql_error());
+            die("Database query failed: " . mysqli_error());
         }
     }
     
@@ -86,7 +88,7 @@ function display_errors($error_array) {
         $required_fields = array('user_login', 'user_pass');
         $errors = array_merge($errors, check_required_fields($required_fields, $_POST));
 
-        $fields_with_lengths = array('user_login' => 30, 'user_pass' => 8);
+        $fields_with_lengths = array('user_login' => 30, 'user_pass' => 4);
         $errors = array_merge($errors, check_max_field_lengths($fields_with_lengths, $_POST));
 
            if (count($errors) == 1) {
@@ -99,38 +101,182 @@ function display_errors($error_array) {
                       exit;
                 }
             
-            } elseif ((count(str_split($_POST['user_pass']))) <> 8) {
+            } elseif ((count(str_split($_POST['user_pass']))) <> 4) {
                 $message = "There was 1 error in the form! check the number of user_pass digits (4 digits) and try again.";
                               echo "$message";
                               exit; 
             } else {
                 
         $user_login = trim(mysql_prep($_POST['user_login']));
-        $user_pass = trim(mysql_prep($_POST['user_pass']));
+        $userChain = trim(mysql_prep($_POST['user_pass']));
+
+        $user_array = str_split($userChain);
+
+        //All forms possibilites of passchains to be entered (the cmbination of 4 digites with any 1 entry)
+        $ps1 = '1110';
+        $ps2 = '1101';
+        $ps3 = '1011';
+        $ps4 = '0111';
+   
+
+
+        $passchainsArray = array('ps1', 'ps2', 'ps3', 'ps4');
+
+        
+        //The pass number arrays data, those appeared to the user randomly.
+        $passNumberArrays = array(	$_SESSION['_values'][$_SESSION['showKeys'][0]],
+									$_SESSION['_values'][$_SESSION['showKeys'][1]],
+									$_SESSION['_values'][$_SESSION['showKeys'][2]],
+									$_SESSION['_values'][$_SESSION['showKeys'][3]]);
+
+        foreach ($passchainsArray as $k => $ps) {
+            $psNumber = "{$$ps}";
+
+            for ($i = 0; $i < 4; $i++) {
+                $result[$i] = $psNumber[$i] * $user_array[$i];
+
+            }
+            $passchain = $result;
+            //The first sequence calculation to check the given passnumber.
+			$sequence0 = array( ($passNumberArrays[0][$_SESSION['showSubArray0'][$passchain[0]]]),
+								($passNumberArrays[1][$_SESSION['showSubArray1'][$passchain[1]]]),
+								($passNumberArrays[2][$_SESSION['showSubArray2'][$passchain[2]]]),
+								($passNumberArrays[3][$_SESSION['showSubArray3'][$passchain[3]]]));
+							  
+            $total = array_sum($sequence0);
+             $zerosPs = array_keys($sequence0, "0"); 
+            $zero_rows = (($passNumberArrays[$zerosPs[0]][4])); 
+            $hashed_result = sha1($total + $zero_rows); 
+                        
+                // Check database to see if user_login and the hashed user_pass exist there.
+                $query = "SELECT id, user_login ";
+                $query .= "FROM users ";
+                $query .= "WHERE user_login = '{$user_login}' ";
+                $query .= "AND user_pass = '{$hashed_result}' ";
+                $query .= "LIMIT 1";
+                $result_set = mysqli_query($link, $query);
+                confirm_query($result_set);
+                if (mysqli_num_rows($result_set) == 1) {
+                    $found_user = mysqli_fetch_array($result_set);
+                    $_SESSION['user_id'] = $found_user['id'];
+                    $_SESSION['user_login'] = $found_user['user_login'];
+                    echo "Login Successful!";
+                    exit;
+                }
+                    
+       //The second sequence calculation to check the given passnumber.
+			$sequence1 = array( ($passNumberArrays[1][$_SESSION['showSubArray1'][$passchain[0]]]),
+								($passNumberArrays[2][$_SESSION['showSubArray2'][$passchain[1]]]),
+								($passNumberArrays[3][$_SESSION['showSubArray3'][$passchain[2]]]),
+								($passNumberArrays[0][$_SESSION['showSubArray0'][$passchain[3]]]));
+						   
+            $total = array_sum($sequence1);
+            $zerosPs = array_keys($sequence1, "0"); 
+          
+          $passNumberArrays1 = array( $_SESSION['_values'][$_SESSION['showKeys'][1]],
+									  $_SESSION['_values'][$_SESSION['showKeys'][2]],
+									  $_SESSION['_values'][$_SESSION['showKeys'][3]],
+									  $_SESSION['_values'][$_SESSION['showKeys'][0]]);
+									  
+           $zero_rows = (($passNumberArrays1[$zerosPs[0]][4])); 
+            $hashed_result = sha1($total + $zero_rows);
 
                         
                 // Check database to see if user_login and the hashed user_pass exist there.
                 $query = "SELECT id, user_login ";
                 $query .= "FROM users ";
                 $query .= "WHERE user_login = '{$user_login}' ";
-                $query .= "AND user_pass = '{$user_pass}' ";
+                $query .= "AND user_pass = '{$hashed_result}' ";
                 $query .= "LIMIT 1";
-                $result_set = mysql_query($query);
+                $result_set = mysqli_query($link, $query);
                 confirm_query($result_set);
-                if (mysql_num_rows($result_set) == 1) {
+                if (mysqli_num_rows($result_set) == 1) {
+                    $found_user = mysqli_fetch_array($result_set);
+                    $_SESSION['user_id'] = $found_user['id'];
+                    $_SESSION['user_login'] = $found_user['user_login'];
+                    echo "Login Successful!";
+                    exit;
+                }
+                
+            //The third sequence calculation to check the given passnumber.
+            $sequence2 = array( ($passNumberArrays[2][$_SESSION['showSubArray2'][$passchain[0]]]),
+								($passNumberArrays[3][$_SESSION['showSubArray3'][$passchain[1]]]),
+								($passNumberArrays[0][$_SESSION['showSubArray0'][$passchain[2]]]),
+								($passNumberArrays[1][$_SESSION['showSubArray1'][$passchain[3]]]));
+							  
+            $total = array_sum($sequence2);
+            $zerosPs = array_keys($sequence2, "0"); 
+            
+            $passNumberArrays2 = array( $_SESSION['_values'][$_SESSION['showKeys'][2]],
+										$_SESSION['_values'][$_SESSION['showKeys'][3]],
+										$_SESSION['_values'][$_SESSION['showKeys'][0]],
+										$_SESSION['_values'][$_SESSION['showKeys'][1]]);
+										
+            
+            $zero_rows = (($passNumberArrays2[$zerosPs[0]][4])); 
+            $hashed_result = sha1($total + $zero_rows);
+
+                                     
+                // Check database to see if user_login and the hashed user_pass exist there.
+                $query = "SELECT id, user_login ";
+                $query .= "FROM users ";
+                $query .= "WHERE user_login = '{$user_login}' ";
+                $query .= "AND user_pass = '{$hashed_result}' ";
+                $query .= "LIMIT 1";
+                $result_set = mysqli_query($link, $query);
+                confirm_query($result_set);
+                if (mysqli_num_rows($result_set) == 1) {
                     $found_user = mysql_fetch_array($result_set);
                     $_SESSION['user_id'] = $found_user['id'];
                     $_SESSION['user_login'] = $found_user['user_login'];
                     echo "Login Successful!";
-
-				 
-				}else {   echo "Nope! user_login/user_pass combination incorrect!";	} exit;	
+                    exit;
+                }
+         
+                     //The fourth sequence calculation to check the given passnumber.
+            $sequence3 = array( ($passNumberArrays[3][$_SESSION['showSubArray3'][$passchain[0]]]),
+								($passNumberArrays[0][$_SESSION['showSubArray0'][$passchain[1]]]),
+								($passNumberArrays[1][$_SESSION['showSubArray1'][$passchain[2]]]),
+								($passNumberArrays[2][$_SESSION['showSubArray2'][$passchain[3]]]));
+							  
+           $total = array_sum($sequence3);
+            $zerosPs = array_keys($sequence3, "0"); 
+            
+            $passNumberArrays3 = array( $_SESSION['_values'][$_SESSION['showKeys'][3]],
+										$_SESSION['_values'][$_SESSION['showKeys'][0]],
+										$_SESSION['_values'][$_SESSION['showKeys'][1]],
+										$_SESSION['_values'][$_SESSION['showKeys'][2]]);
+										
+            
+            $zero_rows = (($passNumberArrays3[$zerosPs[0]][4])); 
+            $hashed_result = sha1($total + $zero_rows);
+            $nonHashedtotal = $total + $zero_rows;
+            
+                // Check database to see if user_login and the hashed user_pass exist there.
+                $query = "SELECT id, user_login ";
+                $query .= "FROM users ";
+                $query .= "WHERE user_login = '{$user_login}' ";
+                $query .= "AND user_pass = '{$hashed_result}' ";
+                $query .= "LIMIT 1";
+                $result_set = mysqli_query($link, $query);
+                confirm_query($result_set);
+                if (mysqli_num_rows($result_set) == 1) {
+                    $found_user = mysql_fetch_array($result_set);
+                    $_SESSION['user_id'] = $found_user['id'];
+                    $_SESSION['user_login'] = $found_user['user_login'];
                    
+				   echo "Login Successful!";
+                    exit;
+				} 
+				else {
+                   if ($psNumber == '0111'){
+                            echo "Nope! user_login/user_pass combination incorrect!";		
+                   }
                 }
 
-        
+        }
 
-
+}
 ?>
         </body>
 </html>
@@ -144,5 +290,5 @@ function display_errors($error_array) {
         fclose($fh);
         exit;
     } 
-    mysql_close($connection);
+    mysqli_close($connection);
 ?>
