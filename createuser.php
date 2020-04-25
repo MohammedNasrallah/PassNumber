@@ -28,7 +28,44 @@ the registration hash value to permit or deny login access to the electronic pla
 <?php require_once ("connection.php");?>
 <?php
 	
+function mysql_prep( $value ) {
+        $magic_quotes_active = get_magic_quotes_gpc();
+        $new_enough_php = function_exists( "mysql_real_escape_string" );
+        if( $new_enough_php ) {
+            if( $magic_quotes_active ) { $value = stripslashes( $value ); }
+            $value = mysql_real_escape_string( $value );
+        } else {
+            if( !$magic_quotes_active ) { $value = addslashes( $value ); }
+        }
+        return $value;
+    }
 
+    
+function confirm_query($result_set) {
+        if (!$result_set) {
+            die("Database query failed: " . mysqli_error());
+        }
+    }
+    
+function check_required_fields($required_array) {
+    $field_errors = array();
+    foreach($required_array as $fieldname) {
+        if (!isset($_POST[$fieldname]) || (empty($_POST[$fieldname]) && !is_numeric($_POST[$fieldname]))) { 
+            $field_errors[] = $fieldname; 
+        }
+    }
+    return $field_errors;
+}
+
+
+function check_max_field_lengths($field_length_array) {
+    $field_errors = array();
+    foreach($field_length_array as $fieldname => $maxlength ) {
+        if (strlen(trim(mysql_prep($_POST[$fieldname]))) > $maxlength) { $field_errors[] = $fieldname; }
+    }
+    return $field_errors;
+}
+    
     
     // START FORM PROCESSING
 
@@ -40,7 +77,7 @@ the registration hash value to permit or deny login access to the electronic pla
         $required_fields = array('user_login', 'user_pass');
         $errors = array_merge($errors, check_required_fields($required_fields, $_POST));
                 
-        $fields_with_lengths = array('user_login' => 30, 'user_pass' => 8);
+        $fields_with_lengths = array('user_login' => 30, 'user_pass' => 4);
         $errors = array_merge($errors, check_max_field_lengths($fields_with_lengths, $_POST));
         
              if (count($errors) == 1) {
@@ -53,17 +90,33 @@ the registration hash value to permit or deny login access to the electronic pla
                       exit;
                 
             
-            } elseif ((count(str_split($_POST['user_pass']))) <> 8) {
+            } elseif ((count(str_split($_POST['user_pass']))) <> 4) {
                 $message = "There was 1 error in the form! check the number of Passnumber digits (4 digits) and try again.";
                               echo "$message";
                               exit; 
             }
             } else {
         
-        $user_login = trim(($_POST['user_login']));
-        $user_pass = trim(($_POST['user_pass']));
+        $user_login = trim(mysql_prep($_POST['user_login']));
+        $userPassnumber = trim(mysql_prep($_POST['user_pass']));
+        $passnumber = str_split($userPassnumber);
+        
+
+				$_values = array(
+				array(0,1,2,3,4), // 1
+				array(0,10,20,30,40), // 2
+				array(0,100,200,300,400), // 3
+				array(0,1000,2000,3000,4000), // 4
+
+				);
 
 
+
+    $password_value = ($_values[0][$passnumber[0]]) + ($_values[1][$passnumber[1]]) + ($_values[2][$passnumber[2]])+ ($_values[3][$passnumber[3]]) ;
+
+        $zerosPs = array_keys($passnumber, "0");
+        $zeroz_rows = (end($_values[$zerosPs[0]])); 
+        $user_pass = sha1($password_value + $zeroz_rows); 
 
         if ( empty($errors) ) {
             $query = "INSERT INTO users (
@@ -71,7 +124,7 @@ the registration hash value to permit or deny login access to the electronic pla
                         ) VALUES (
                             '{$user_login}', '{$user_pass}'
                         )";
-            $result = mysql_query($query, $connection);
+            $result = mysqli_query($link, $query);
             if ($result) {
                 $message = "The Username has been successfully created.";
                 echo "$message";
@@ -79,7 +132,7 @@ the registration hash value to permit or deny login access to the electronic pla
                 
             } else {
                 $message = "The Username could not be created!";
-                $message .= "<br />" . mysql_error();
+                $message .= "<br />" . mysqli_error($link);
                 echo "$message";
                exit;
 

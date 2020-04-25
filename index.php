@@ -81,18 +81,15 @@ array(0,'<img src="images/jobsicons/job-1.jpg" width="50" height="50"/>','<img s
       
    <form id="myForm" action="createuser.php" method="post">
 			<table>
-				<tr>
-					<td>Email:</td>
-					<td><input type="email" name="email" required=""/></td> 
-				</tr>
+				
 				    <tr>
 					<td>Username:</td>
-					<td><input type="text" name="user_login" maxlength="30" value="<?php echo htmlentities($user_login); ?>" placeholder="Email"/></td>
+					<td><input type="text" name="user_login" maxlength="30" value="<?php echo htmlentities($user_login); ?>" placeholder="username"/></td>
 				</tr>
 				<tr>
 					<td>Passnumber:</td>
-					<td><input type="text" name="user_pass" maxlength="8" value="<?php echo htmlentities($user_pass); ?>" /></td> 
-				</tr> 
+					<td><input type="text" name="user_pass" maxlength="4" pattern="[1-4]*0[1-4]*" title="4 digits, 1 zero, digits 1-4 only" placeholder="4 digits, 1 zero, digits 1-4 only"  value="<?php echo htmlentities($user_pass); ?>" /></td> 
+				</tr> <!-- Another usefull pattern is 0{1}[1-4]{3}|[1-4]{1}0{1}[1-4]{2}|[1-4]{2}0{1}[1-4]{1}|[1-4]{3}0{1} -->
 				<tr>	
 					<td colspan="2"> <input type="submit" name="submit" value="Create user" /></td>
 				</tr>
@@ -120,5 +117,5 @@ array(0,'<img src="images/jobsicons/job-1.jpg" width="50" height="50"/>','<img s
         fclose($fh);
         exit;
     } 
-    mysql_close($connection);
+    mysqli_close($link);
 ?>

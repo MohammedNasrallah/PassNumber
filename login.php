@@ -26,11 +26,98 @@ the registration hash value to permit or deny login access to the electronic pla
 
 <?php session_start();?>
 <?php require_once ("connection.php");?>
+<?php
+//Login assistant file
 
-
+function sub_array_keys($_symbols) {
+    $result = array();
+    foreach ($_symbols as $key => $sub_array) {
+        $result[$key] = array_keys($sub_array);
+    }return $result;}
     
- <?php $user_login = ""; $user_pass = "";  'user_login' == ""; 'user_pass' == ""; ?>
+        function customShuffle(array &$_symbols) {
+    $firstElement = array_shift($_symbols);
+    shuffle($_symbols);
+    array_unshift($_symbols, $firstElement);
+}
 
+
+function shuffle_assoc(&$_symbols) {
+    $keys = array_keys($_symbols);
+
+    shuffle($keys);
+
+    foreach ($keys as $key) {
+        $new[$key] = $_symbols[$key];
+    }
+
+    $_symbols = $new;
+
+    return true;
+}
+
+
+function sort_sub_array_by_array($_symbols, $_keys) {
+    $result = array();
+    foreach ($_keys as $key_1 => $sub_array_keys) {
+        foreach ($sub_array_keys as $key_2) {
+            $result[$key_1][$key_2] = $_symbols[$key_1][$key_2];
+        }
+    }
+    return $result;
+}
+    
+    
+?>
+    
+ <?php $user_login = ""; $userChain = "";  'user_login' == ""; 'user_pass' == ""; ?>
+
+<?php
+
+$_values = array( 
+array(0, 1, 2, 3, 4), // 0
+array(0, 10, 20, 30, 40), // 1
+array(0, 100, 200, 300, 400), // 2
+array(0, 1000, 2000, 3000, 4000), // 3
+);
+
+
+
+$_symbols = array(
+array(0,'<img src="images/foodicons/food-1.jpg" width="50" height="50"/>','<img src="images/foodicons/food-2.jpg" width="50" height="50"/>','<img src="images/foodicons/food-3.jpg" width="50" height="50"/>','<img src="images/foodicons/food-4.jpg" width="50" height="50"/>'), //0
+array(0,'<img src="images/fruitsicons/fruites-1.jpg" width="50" height="50"/>','<img src="images/fruitsicons/fruites-2.jpg" width="50" height="50"/>','<img src="images/fruitsicons/fruites-3.jpg" width="50" height="50"/>','<img src="images/fruitsicons/fruites-4.jpg" width="50" height="50"/>'), //1
+array(0,'<img src="images/animalsicons/animal-1.jpg" width="50" height="50"/>','<img src="images/animalsicons/animal-2.jpg" width="50" height="50"/>','<img src="images/animalsicons/animal-3.jpg" width="50" height="50"/>','<img src="images/animalsicons/animal-4.jpg" width="50" height="50"/>'), //2
+array(0,'<img src="images/jobsicons/job-1.jpg" width="50" height="50"/>','<img src="images/jobsicons/job-2.jpg" width="50" height="50"/>','<img src="images/jobsicons/job-3.jpg" width="50" height="50"/>','<img src="images/jobsicons/job-4.jpg" width="50" height="50"/>'), //3
+);
+
+
+// Shuffling both of arrays ($_symbols and $_values) once to get a consistent shuffled arrays.
+$_keys = sub_array_keys($_symbols);
+
+array_walk($_keys, function(&$_keys) { customShuffle($_keys);});
+
+shuffle_assoc($_keys);
+
+$_symbols = sort_sub_array_by_array($_symbols, $_keys);
+$_values = sort_sub_array_by_array($_values, $_keys);
+
+$showKeys = array_keys($_symbols);
+
+$showSubArray0 = array_keys($_symbols[$showKeys[0]]);
+$showSubArray1 = array_keys($_symbols[$showKeys[1]]);
+$showSubArray2 = array_keys($_symbols[$showKeys[2]]);
+$showSubArray3 = array_keys($_symbols[$showKeys[3]]);
+
+
+
+$_SESSION['_values'] = $_values;
+$_SESSION['showKeys'] = $showKeys;
+$_SESSION['showSubArray0'] = $showSubArray0;
+$_SESSION['showSubArray1'] = $showSubArray1;
+$_SESSION['showSubArray2'] = $showSubArray2;
+$_SESSION['showSubArray3'] = $showSubArray3;
+
+?>
 
 <html>
     <head>
@@ -49,7 +136,34 @@ the registration hash value to permit or deny login access to the electronic pla
 	
              <div class="form" style=" padding-top: 10px;">
           <div class="content">
+  <table id="userArrayTable">
 
+<tr>
+<td><?php echo $_symbols[$showKeys[0]][$showSubArray0[1]] ?><span>1</span></td>
+ <td><?php echo $_symbols[$showKeys[0]][$showSubArray0[2]] ?><span>2</span></td>
+ <td><?php echo $_symbols[$showKeys[0]][$showSubArray0[3]] ?><span>3</span></td>
+ <td><?php echo $_symbols[$showKeys[0]][$showSubArray0[4]] ?><span>4</span></td>
+</tr>
+<tr id="tr2">
+<td><?php echo $_symbols[$showKeys[1]][$showSubArray1[1]] ?><span>1</span></td>
+ <td><?php echo $_symbols[$showKeys[1]][$showSubArray1[2]] ?><span>2</span></td>
+ <td><?php echo $_symbols[$showKeys[1]][$showSubArray1[3]] ?><span>3</span></td>
+ <td><?php echo $_symbols[$showKeys[1]][$showSubArray1[4]] ?><span>4</span></td>
+</tr>
+<tr>
+<td><?php echo $_symbols[$showKeys[2]][$showSubArray2[1]] ?><span>1</span></td>
+ <td><?php echo $_symbols[$showKeys[2]][$showSubArray2[2]] ?><span>2</span></td>
+ <td><?php echo $_symbols[$showKeys[2]][$showSubArray2[3]] ?><span>3</span></td>
+ <td><?php echo $_symbols[$showKeys[2]][$showSubArray2[4]] ?><span>4</span></td>
+</tr>
+<tr id="tr4">
+<td><?php echo $_symbols[$showKeys[3]][$showSubArray3[1]] ?><span>1</span></td>
+ <td><?php echo $_symbols[$showKeys[3]][$showSubArray3[2]] ?><span>2</span></td>
+ <td><?php echo $_symbols[$showKeys[3]][$showSubArray3[3]] ?><span>3</span></td>
+ <td><?php echo $_symbols[$showKeys[3]][$showSubArray3[4]] ?><span>4</span></td> 
+</tr>
+
+</table>
   <!-- end .content --></div>
   <div class="sidebar1">
       </br>
@@ -62,7 +176,7 @@ the registration hash value to permit or deny login access to the electronic pla
                 </tr>
                 <tr>
                     <td>Passnumber:</td>
-                    <td><input id="user_pass" type="text" name="user_pass" maxlength="8" value="<?php echo htmlentities($user_pass); ?>" /></td>
+                    <td><input id="user_pass" type="text" name="user_pass" maxlength="4" pattern="[1-4]+"  title="4 digits, no zeros, digits 1 to 4 only" placeholder="4 digits, no zeros, digits 1 to 4 only"  value="<?php echo htmlentities($userChain); ?>" /></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" id="submit" name="submit" value="Submit"></td> </tr>    
@@ -92,5 +206,5 @@ the registration hash value to permit or deny login access to the electronic pla
         fclose($fh);
         exit;
     } 
-    mysql_close($connection);
+    mysqli_close($link);
 ?>
