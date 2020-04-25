@@ -1,14 +1,12 @@
 <?php
 
-// 1. Create a database connection
-$connection = mysql_connect("localhost","root","");
-if (!$connection) {
-	die("Database connection failed: " . mysql_error());
+// 1. Link to a database connection
+$link = mysqli_connect("localhost", "root", "", "passnumber");
+ 
+// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 
-// 2. Select a database to use 
-$db_select = mysql_select_db("passnumber",$connection);
-if (!$db_select) {
-	die("Database selection failed: " . mysql_error());
-}
+
 ?>
