@@ -1,4 +1,5 @@
-<?php/*An authentication process is disclosed which uses categories of icons
+<?php
+/*An authentication process is disclosed which uses categories of icons
 to create an easy to remember passnumber for use with an electronic platform.
 The process may assign each icon a discrete value during registration.
 A hash value is created based on combining the discrete values for each icon in the passnumber. 
@@ -21,8 +22,9 @@ the registration hash value to permit or deny login access to the electronic pla
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
- Contact us at passnumber.com or m.rizeg@gmail.com*/;?>
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+ Contact us at passnumber.com or m.rizeg@gmail.com*/
+;?>
 
 <?php session_start();?>
 <?php require_once ("connection.php");?>
