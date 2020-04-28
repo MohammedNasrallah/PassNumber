@@ -1,14 +1,42 @@
 PASSNUMBER AND IMAGE BASED METHOD AND COMPUTER PROGRAM PRODUCT TO AUTHENTICATE USER IDENTITY
 
-An authentication process is disclosed which uses categories of icons to create an easy to remember passnumber for use with an electronic platform. The process may assign each icon a discrete value during registration. A hash value is created based on combining the discrete values for each icon in the passnumber. During a login process, the user is presented with the icons, sometimes in a randomly shuffled. The user may input the icons that make up the passnumber. The process may access stored values for user selected icons in the login passnumber entry field and calculate a login hash value. The process may then determine whether the login hash value matches the registration hash value to permit or deny login access to the electronic platform.
+**NOTE: PROCEED WITH CAUTION**
 
+An authentication process is disclosed which uses categories of icons
+to create an easy to remember passnumber for use with an electronic platform.
+The process may assign each icon a discrete value during registration.
+A hash value is created based on combining the discrete values for each icon in the passnumber. 
+During a login process, the user is presented with the icons, sometimes in a randomly shuffled.
+The user may input the icons that make up his or her passnumber. 
+The process may access stored values for user selected icons in the login passnumber entry field
+and calculate a login hash value. The process may then determine whether the login hash value matches
+the registration hash value to permit or deny login access to the electronic platform.
+
+    Copyright (C) 2020 Mohammed Nasrallah
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ Contact us at passnumber.com or email us at: info@passnumber.com*/
+ 
+ 
 ******************************
 Watch PassNumber tutorial at:
 https://www.youtube.com/channel/UCALlTcRAsm9zyltRD5A1dhg
 
 ******************************
 
-I would like to introduce you, this solution to raise the security level of logging step for users to their accounts.
+I would like to introduce you, this solution to raise up the security level of logging step for users to their accounts, authenticating identies.
+
 Did you ever lost your account due to a weak password? Or because of someone who captured your password entries? Are you suffering of forgetting your password every time because of the requirements of the password strength? 
 I have invented passnumber, a 100% working method that will enhance the authentication process to authenticate users, I claim that this method is a revolutionary one, that will assist people to keep their accounts safe and secured.
 I decided to put this invention on the internet for free as an open source project under GPL3 license to benefit the humanity in the first place, and you may find out our project published for testing purposes at our official website www.passnumber.com  or at the most famous Open Source applications hosts, github and sourceforge.
@@ -40,3 +68,6 @@ In the login page or step, there will be a dynamic table of icons, the same stru
 User must determine his symbols positions by entering their positions’ numbers and he can enter any number to represent the neglected rows when he encounters them in his passnumber sequence except number 0.
 This invention gave the user the ability to start from any row, any symbol, even if he started from a neglected row; but he must continue in sequence from whatever row he started from, to complete 9 numbers of a passnumber.
 And that’s it, Visit our official website at www.passnumber.com, check out our method, test it, enjoy it, and remember to give us your precious feedback.
+
+
+IMPORTANT NOTE: YOU SHOULD BE A PROFESSIONAL DEVELOPER TO USE THIS METHOD SINCE YOU NEED TO ADD YOUR COMPREHESIVE PRECATUIONS TO AVOID SECURITY BREACH IN ANY TYPE.
