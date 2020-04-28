@@ -1,0 +1,25 @@
+How to use PassNumber script to authenticate your user’s identity instead of Password?
+Kindly follow below steps to test the application successfully (I recommend you to watch trail demonstration on YouTube at:
+https://www.youtube.com/channel/UCALlTcRAsm9zyltRD5A1dhg
+Install the script of PassNumber:
+
+1.	Download the clone and unzip it.
+2.	Add it to your c:/xampp/htdocs/
+3.	Add passnumber.sql to your localhost database.
+4.	Enter localhost/passnumber/index.php at your browser.
+
+New user:
+1.	Add your username.
+2.	Chose 1 icon from each category from first row and enter its location number only (e.g. enter 1 for fish plate or 4 for spaghetti plate).
+3.	Repeat previous step.
+4.	Now, you should forget (neglect) 1 selection and represent that by entering "0" (e.g. if you selected fish palate and apple then cow and you won’t any icons from last category, simply enter passnumber: 1110
+5.	You only need to memorize your icons not the passnumber.
+
+Login step:
+1.	Enter your username.
+2.	Now, you need to represent your passnumber by locations of your icons (e.g. if first row have fish plate at location 3, you need to enter 3 at passnumber field. next row, if it was the neglected category, just enter any deceiving digits from 1-4 but not zero. but if the next category is fruits, then represent your Apple's location by entering it's number, I mean again, if it was at location 4, you need to enter 4. moving forward until you enter a 4 numbers of passnumber Not including Zeros.)
+3.	Let say you resulting passnumber is 3142, then the script will test it and match it with the saved hashed number in database. If matched, you login successfully.
+4.	Try to change the number that representing the neglected category, you will login successfully again!
+5.	Try to enter your passnumber starting from any row, downward or upward, you will login successfully if you represent your icons' locations correctly.
+
+Have fun ;)
