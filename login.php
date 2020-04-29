@@ -174,7 +174,7 @@ $_SESSION['showSubArray3'] = $showSubArray3;
 
                 
                     <td>Username:</td>
-                    <td><input id="username" type="text" name="user_login" maxlength="30" value="<?php echo htmlentities($user_login); ?>" placeholder="Email" /></td>
+                    <td><input id="username" type="text" name="user_login" maxlength="30" value="<?php echo htmlentities($user_login); ?>" placeholder="Username" /></td>
                 </tr>
                 <tr>
                     <td>Passnumber:</td>

@@ -263,7 +263,7 @@ function display_errors($error_array) {
                 $result_set = mysqli_query($link, $query);
                 confirm_query($result_set);
                 if (mysqli_num_rows($result_set) == 1) {
-                    $found_user = mysql_fetch_array($result_set);
+                    $found_user = mysqli_fetch_array($result_set);
                     $_SESSION['user_id'] = $found_user['id'];
                     $_SESSION['user_login'] = $found_user['user_login'];
                    
