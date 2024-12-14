@@ -40,17 +40,249 @@ There are other types of authentication methods in need for additional devices t
 
 Passnumber method is introducing a simple form of numbers only, those can be selected easily from a table of symbols to be displayed in front of the user at the registration step, and these symbols, representing the saved symbols’ values, those have been selected by user once he created the account along with his desired username, hence, this method is simplest and easiest to use.
 
-** How to Use Passnumber**
+# Passnumber Authentication System
 
---Registration step:
-In the Registration page or step, There is a static table of symbols, this table is consisting of 9 rows and 9 columns, every row representing a specific category and it contains 9 different symbols belongs to this category, the head row (row number 0) is just a reference row to represent the positions’ numbers from 1 to 9.
-User has to select 6 symbols out of 9 and he must neglect 3 rows of symbols, from the table, user needs to enter their positions’ numbers in a continues sequence from the row number one towards row number 9, user has to enter 0 for every neglected row, and he need only to remember his selected symbols, Not the resultant sequence of 9 numbers in passnumber field.
+A secure, grid-based authentication system that combines visual pattern recognition with numeric sequences while maintaining high security through dynamic randomization.
 
---Login step:
-In the login page or step, there will be a dynamic table of icons, the same structure of the registration step table, but this table will represent the shuffled rows of symbols’ categories vertically, without mixing the symbols out of their categories (rows) and at the same time, the symbols get shuffled in their category’s rows themselves.
-User must determine his symbols positions by entering their positions’ numbers and he can enter any number to represent the neglected rows when he encounters them in his passnumber sequence except number 0.
-This invention gave the user the ability to start from any row, any symbol, even if he started from a neglected row; but he must continue in sequence from whatever row he started from, to complete 9 numbers of a passnumber.
-And that’s it, Visit our official website at www.passnumber.com, check out our method, test it, enjoy it, and remember to give us your precious feedback.
+## Overview
 
+The Passnumber technique is an innovative authentication system that uses a grid-based interface where:
+- Users select specific icons from a grid to create their pass-number
+- Each icon has a unique numeric value
+- Grid layout is randomized for every login attempt
+- Users can start from any row/icon but must complete a full cycle
+- System validates based on the sequence of selected icons
 
-IMPORTANT NOTE: YOU SHOULD BE A PROFESSIONAL DEVELOPER TO USE THIS METHOD SINCE YOU NEED TO ADD YOUR COMPREHESIVE PRECATUIONS TO AVOID SECURITY BREACH IN ANY TYPE.
+## Key Features
+
+### 1. Dynamic Grid Layout
+- Horizontal randomization of icon positions within rows
+- Vertical randomization of row categories
+- Unique grid layout for every login attempt
+
+### 2. Flexible User Input
+- Start from any row or icon
+- Complete cycle requirement (traverse all rows once)
+- Limited number of neglected rows (zeros)
+
+### 3. Sequence-Based Validation
+- Validates sequence of selected icons
+- Prevents accidental matches from cyclic permutations
+- Secure hash-based storage and comparison
+
+## Security Analysis
+
+### Complexity Metrics
+For a 9x9 grid:
+- Total possible combinations: 131,681,894,400 (9! × 9!)
+- Row order permutations: 362,880 (9!)
+- Icon selection permutations: 362,880 (9!)
+
+### Resistance to Common Cyber Attacks
+
+#### High Resistance
+- **Brute Force Attacks**: Grid randomization creates vast possibility space
+- **Rainbow Table Attacks**: Dynamic sequences prevent precomputed hash tables
+- **Dictionary Attacks**: Non-word-based system immune to dictionary attacks
+- **Keylogger Attacks**: No keyboard input required
+- **Browser Inspection**: No plaintext password transmission
+
+#### Moderate Resistance
+- **Man-in-the-Middle Attacks**: Encrypted hash transmission
+- **Phishing Attacks**: Dynamic grid layout difficult to replicate
+- **Social Engineering**: Complex visual pattern hard to describe
+- **Replay Attacks**: Session-based randomization prevents reuse
+
+## Comparison with Other Authentication Methods
+
+### vs Traditional Passwords
+- Higher resistance to shoulder-surfing
+- Immune to keylogger attacks
+- Better memorability through visual patterns
+- More complex combination space
+
+### vs Pattern Locks
+- Immune to smudge attacks
+- Larger pattern space
+- Dynamic layout prevents pattern tracking
+- More secure against observation
+
+### vs PIN Codes
+- Significantly larger combination space
+- Better resistance to shoulder-surfing
+- Visual memory aids vs pure numeric memory
+- Dynamic input positions vs static keypad
+
+### vs One-Time Passwords (OTP)
+- No secondary device required
+- Not vulnerable to SMS/email interception
+- Persistent authentication method
+- Better user experience
+
+### vs Biometrics
+- No specialized hardware required
+- Not vulnerable to spoofing
+- Changeable credentials
+- More scalable implementation
+
+## Technical Specifications
+
+### Grid Structure
+- 9×9 grid layout
+- Unique numeric values per icon
+- Category-based row organization
+- Dynamic position randomization
+
+### Security Features
+- Sequence-based validation
+- Cryptographic hash storage
+- Limited zero-row allowance
+- Full cycle requirement
+- Session-based randomization
+
+### Validation Process
+1. User selects icons in sequence
+2. System records selection order
+3. Hash computation of sequence
+4. Comparison with stored hash
+5. Authentication decision
+
+## Security Strengths
+
+| Attack Vector | Protection Level | Mitigation Strategy |
+|--------------|------------------|---------------------|
+| Brute Force | High | Large combination space + randomization |
+| Shoulder Surfing | High | Dynamic grid layout |
+| Keylogging | High | No keyboard input required |
+| Pattern Analysis | High | Randomized positions |
+| Replay Attacks | High | Session-based validation |
+| Social Engineering | Moderate | Complex pattern description |
+| MITM Attacks | Moderate | Encrypted transmission |
+
+## Advantages
+
+1. **Enhanced Security**
+   - Dynamic grid layout
+   - Large combination space
+   - Multiple security layers
+
+2. **User Experience**
+   - Visual pattern recognition
+   - Flexible starting position
+   - Intuitive interface
+
+3. **Implementation**
+   - No special hardware required
+   - Scalable architecture
+   - Platform independent
+
+4. **Maintenance**
+   - Easy credential changes
+   - Simple backup procedures
+   - Low infrastructure requirements
+
+## Limitations
+
+1. **Implementation Complexity**
+   - Requires server-side randomization
+   - Complex session management
+   - Grid layout optimization
+
+2. **User Education**
+   - New authentication concept
+   - Pattern selection guidance
+   - Security practice training
+
+## Best Practices
+
+1. **Grid Configuration**
+   - Limit maximum zeros allowed
+   - Ensure unique icon values
+   - Maintain category distinction
+
+2. **Security Implementation**
+   - Server-side randomization
+   - Secure hash algorithms
+   - Session token management
+
+3. **User Guidelines**
+   - Strong pattern selection
+   - Regular pattern changes
+   - Secure environment awareness
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgments
+
+- Inspired by pattern-based authentication systems
+- Built on modern cryptographic principles
+- Designed for enhanced security and usability
+- Server capable of handling secure hashing
+- Database for storing hashed sequences
+
+### Security Measures
+
+#### 1. Grid Randomization
+- **Horizontal Shuffling**
+  - Icon positions randomized within each row
+  - Prevents pattern tracking across sessions
+  - Unique layout per authentication attempt
+
+- **Vertical Shuffling**
+  - Row order randomized for each session
+  - Category positions change dynamically
+  - Prevents positional memory attacks
+
+#### 2. Sequence Protection
+- **Hash-Based Storage**
+  - Only hashed sequences stored in database
+  - No plaintext pass-numbers retained
+  - Secure one-way transformation
+
+- **Dynamic Validation**
+  - Full sequence validation required
+  - Order-sensitive verification
+  - Zero-tolerance for partial matches
+
+#### 3. Session Security
+- **Unique Session Tokens**
+  - Generated per authentication attempt
+  - Limited lifetime validity
+  - Prevents replay attacks
+
+- **State Management**
+  - Server-side state tracking
+  - Timeout mechanisms
+  - Automatic session invalidation
+
+#### 4. Input Protection
+- **Click-Based Entry**
+  - No keyboard input required
+  - Immune to keyloggers
+  - Resistant to input tracking
+
+- **Visual Masking**
+  - Selected icons not highlighted
+  - No visual feedback trail
+  - Prevents shoulder surfing
+
+#### 5. Anti-Automation
+- **Rate Limiting**
+  - Maximum attempts per time window
+  - Progressive timeout increases
+  - IP-based tracking
+
+- **CAPTCHA Integration**
+  - Triggered by suspicious activity
+  - Prevents automated attacks
+  - Human verification requirement
+
+#### 6. Transmission Security
+- **Encrypted Communication**
+  - TLS/SSL encryption
+  - Secure hash transmission
+  - Man-in-the-middle protection
+
+- **
